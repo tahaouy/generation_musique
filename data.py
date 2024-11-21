@@ -1,6 +1,6 @@
 import os
 from music21 import converter
-import numpy as np  # Importation de numpy
+import numpy as np 
 
 def get_notes():
     midi_folder = "./BETH"
@@ -38,5 +38,5 @@ def prepare_sequences(all_notes, notes_to_int, sequence_length=50):
 
     X = np.array(sequences) / len(notes_to_int)
     y = np.array(targets)
-    y = np.eye(len(notes_to_int))[y]  # One-hot encoding des cibles
+    y = np.eye(len(notes_to_int))[y] 
     return X, y
