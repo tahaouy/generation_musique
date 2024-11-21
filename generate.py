@@ -18,11 +18,11 @@ def create_midi(predicted_notes, notes_to_int, filename):
     for pattern in predicted_notes:
         note_str = int_to_notes.get(pattern, None)
         if note_str:
-            if '.' in note_str:  # Accord
+            if '.' in note_str:  
                 notes = note_str.split('.')
-                chord_notes = [note.Note(n) for n in notes]  # Ne pas convertir en int
+                chord_notes = [note.Note(n) for n in notes]  
                 output_notes.append(chord.Chord(chord_notes))
-            else:  # Note unique
+            else:  
                 output_notes.append(note.Note(note_str))
 
     midi_stream = stream.Stream(output_notes)
