@@ -26,7 +26,7 @@ pip install tensorflow numpy pandas music21
 ``
 
 
-## PS
+## Remarque
 
 L'exécution de ce projet peut prendre un temps considérable, surtout lors de l'entraînement du modèle. Cela dépend de la taille des données et de la puissance de votre machine (GPU recommandé pour des performances optimales).
 
