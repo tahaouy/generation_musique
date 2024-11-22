@@ -3,6 +3,7 @@
 
 ## Introduction
 Ce projet est une tentative de génération de musique à l'aide de réseaux LSTM. Mon objectif était de comprendre les bases des réseaux neuronaux récurrents (RNN) et leur application dans le domaine musical.
+J'ai essayé de le réaliser en m'inspirant de plusieurs sources, notamment des tutoriels sur YouTube, des articles et des projets similaires. Ces ressources m'ont beaucoup aidé à comprendre les concepts et à les appliquer dans ce projet.
 
 ## Motivation
 L'idée est née de ma curiosité pour les applications créatives de l'intelligence artificielle. J'ai voulu explorer comment un modèle peut apprendre des motifs dans des données musicales et créer quelque chose de nouveau ainsi qu'apprendre en exerçant
