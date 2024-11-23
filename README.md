@@ -22,7 +22,7 @@ Actuellement, le modèle ne génère pas encore des séquences musicales convain
 
 ## Défis rencontrés
 - Manque de données.
-- Modèle pas assez convaincant(besoin d'énormement d'optimisation).
+- Modèle pas assez convaincant(besoin d'énormement d'optimisations).
 
 ## Prérequis
 
