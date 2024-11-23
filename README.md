@@ -8,6 +8,12 @@ J'ai essayé de le réaliser en m'inspirant de plusieurs sources, notamment des 
 ## Motivation
 L'idée est née de ma curiosité pour les applications créatives de l'intelligence artificielle. J'ai voulu explorer comment un modèle peut apprendre des motifs dans des données musicales et créer quelque chose de nouveau ainsi qu'apprendre en exerçant
 
+## Étapes du Projet
+
+-  **Préparation des données** : Extraction et encodage des notes à partir de fichiers MIDI.
+-  **Construction du modèle** : Réseau LSTM capable de prédire la prochaine note dans une séquence.
+-  **Entraînement et génération** : Le modèle est formé sur des séquences musicales et utilisé pour créer de nouvelles mélodies.
+
 ## Résultats
 Actuellement, le modèle ne génère pas encore des séquences musicales convaincantes. La précision reste faible, mais cela m'a permis d'acquérir une meilleure compréhension des étapes suivantes :
 - Préparation des données musicales.
