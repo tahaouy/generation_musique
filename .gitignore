@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+best_model.keras
+generated_chopin.mid

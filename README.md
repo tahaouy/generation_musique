@@ -1,43 +1,85 @@
+# chopin-music-generation
 
-# Generation de Musique avec un RNN
+A full symbolic music generation pipeline focused on Chopin-only MIDI data.
+The model is trained end-to-end from raw MIDI notes and generates new piano sequences.
+I already tried to make one in 2024 but since I got results that weren't very convincing, I decided to put it on hold. Now that I've gained a lot more knowledge about AI and deep learning, I gave it another try and the outcome is much better
 
-## Introduction
-Ce projet est une tentative de génération de musique à l'aide de réseaux LSTM. Mon objectif était de comprendre les bases des réseaux neuronaux récurrents (RNN) et leur application dans le domaine musical.
-J'ai essayé de le réaliser en m'inspirant de plusieurs sources, notamment des tutoriels sur YouTube, des articles et des projets similaires. Ces ressources m'ont beaucoup aidé à comprendre les concepts et à les appliquer dans ce projet.
+Generation backend: TensorFlow/Keras GRU model (local training, GPU optional).
 
-## Motivation
-L'idée est née de ma curiosité pour les applications créatives de l'intelligence artificielle. J'ai voulu explorer comment un modèle peut apprendre des motifs dans des données musicales et créer quelque chose de nouveau ainsi qu'apprendre en exerçant
+## Architecture
 
-## Étapes du Projet
+```
+MIDI files (midi_chopin/)
+        |
+    data.py             <- load MIDI, extract note/chord tokens, build vocabulary
+        |
+    sequence builder    <- create fixed-length token windows and next-token targets
+        |
+    model.py            <- Embedding + stacked GRU + softmax classifier
+        |
+    callbacks           <- checkpoint, early stopping, learning-rate reduction
+        |
+    generate.py         <- temperature sampling + MIDI rendering
+        |
+    main.py             <- full train + generate orchestration via CLI
+```
 
--  **Préparation des données** : Extraction et encodage des notes à partir de fichiers MIDI.
--  **Construction du modèle** : Réseau LSTM capable de prédire la prochaine note dans une séquence.
--  **Entraînement et génération** : Le modèle est formé sur des séquences musicales et utilisé pour créer de nouvelles mélodies.
+## Setup
 
-## Résultats
-Actuellement, le modèle ne génère pas encore des séquences musicales convaincantes. La précision reste faible, mais cela m'a permis d'acquérir une meilleure compréhension des étapes suivantes :
-- Préparation des données musicales.
-- Construction et entraînement de modèles LSTM.
-- Utilisation de bibliothèques comme `Music21` pour manipuler les données.
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+```
 
-## Défis rencontrés
-- Manque de données.
-- Modèle pas assez convaincant(besoin d'énormement d'optimisations).
+If you had previous package conflicts, recreate the environment from scratch:
 
-## Prérequis
+```bash
+rmdir /s /q .venv
+python -m venv .venv
+.venv\Scripts\activate
+pip install --upgrade pip
+pip install -r requirements.txt
+```
 
-Pour exécuter ce projet, tu dois installer les bibliothèques suivantes :
+## Usage
 
-``
-pip install tensorflow numpy pandas music21
-``
+**Step 1 - verify dataset is present in `midi_chopin/`**
 
+**Step 2 - train and generate:**
+```bash
+python main.py
+```
 
-## Remarque
+**Step 3 - custom run (recommended for showcase):**
+```bash
+python main.py --midi-folder midi_chopin --sequence-length 64 --epochs 80 --batch-size 128 --generated-length 400 --temperature 0.8 --output-midi generated_chopin.mid
+```
 
-L'exécution de ce projet peut prendre un temps considérable, surtout lors de l'entraînement du modèle. Cela dépend de la taille des données et de la puissance de votre machine (GPU recommandé pour des performances optimales).
+## Generated sample (audio)
 
+The model output was rendered to **[`generated_chopin.mp3`](generated_chopin.mp3)** (same training/generation settings as the “custom run” command above) so you can listen in the browser on GitHub.
 
+<audio controls src="https://raw.githubusercontent.com/tahaouy/generation_musique/main/generated_chopin.mp3">
+  Your browser does not support embedded audio — use the download link below.
+</audio>
 
+**Direct links:** [open the file in the repo](generated_chopin.mp3) · [download (raw)](https://raw.githubusercontent.com/tahaouy/generation_musique/main/generated_chopin.mp3)
 
+> **Note:** `python main.py … --output-midi generated_chopin.mid` still writes a MIDI file locally; that file is ignored by Git (see `.gitignore`). The MP3 in the repo is the showcase listenable export.
 
+## Design decisions
+
+**Why Chopin-only data?** A single-composer corpus improves stylistic coherence and reduces cross-artist noise in generated motifs.
+
+**Why integer targets instead of one-hot?** Sparse targets reduce memory usage and speed up training while keeping the same objective.
+
+**Why Embedding + GRU?** Embeddings learn token relationships directly, and GRUs are efficient for sequence modeling with fewer parameters than larger recurrent stacks.
+
+**Why temperature sampling?** Greedy decoding is repetitive; temperature gives controllable diversity for more musical outputs.
+
+**Why training callbacks?** Early stopping and learning-rate scheduling stabilize convergence and avoid overtraining on small symbolic datasets.
+
+## Stack
+
+Python · TensorFlow/Keras · NumPy · music21 · MIDI symbolic modeling
